@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, TouchableOpacity, Keyboard } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import Checkbox from "./Checkbox";
 
 const { width } = Dimensions.get("window");
@@ -12,35 +13,65 @@ const Task = () => {
   const [isChecked, setChecked] = useState({});
   const [newTask, setNewTask] = useState("");
 
+
   useEffect(() => {
-    fetch(linkTodo)
-      .then((response) => response.json())
-      .then((data) => setData(data.slice(0, 4)))
-      .catch((error) => alert(error))
-      .finally(() => setLoading(false));
+    const fetchData = async () => {
+      try {
+        const storedTasks = await AsyncStorage.getItem("tasks");
+        if (storedTasks) {
+          setData(JSON.parse(storedTasks));
+        } else {
+          const response = await fetch(linkTodo);
+          const json = await response.json();
+          const initialTasks = json.slice(0, 4);
+          setData(initialTasks);
+          saveTasks(initialTasks);
+        }
+      } catch (error) {
+        console.error("Error loading task", error);
+      }  finally {
+        setLoading(false); 
+      }
+    };
+  
+    fetchData();
   }, []);
 
-  const toggleCheckbox = (id) => {
-    setChecked((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+  const saveTasks = async (tasks) => {
+    try {
+      await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
+    } catch (error) {
+      console.error("error saving task:", error);
+    }
   };
 
   const addTask = () => {
     if (newTask.trim() === "") return;
     const newTaskObj = {
-      id: data.length + 1,
+      id: Date.now(), 
       title: newTask,
       completed: false,
     };
-    setData((prevData) => [...prevData, newTaskObj])
+    const updatedTasks = [...data, newTaskObj];
+    setData(updatedTasks);
+    saveTasks(updatedTasks);
     setNewTask(""); 
-    Keyboard.dismiss();
+    Keyboard.dismiss(); 
   };
 
   const removeTask = (id) => {
-    setData((prevData) => prevData.filter((task) => task.id !== id));
+    const updatedTasks = data.filter((task) => task.id !== id);
+    setData(updatedTasks);
+    saveTasks(updatedTasks); 
+  };
+
+
+  const toggleCheckbox = (id) => {
+    const updatedTasks = data.map(task =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    setData(updatedTasks);
+    saveTasks(updatedTasks);
   };
 
 
@@ -71,7 +102,7 @@ const Task = () => {
                 value={isChecked[item.id] ?? item.completed}
                 onPress={() => toggleCheckbox(item.id)}
               />
-              
+
               <View style={styles.actionsContainer}>
                 <TouchableOpacity onPress={() => removeTask(item.id)} style={styles.deleteButton}>
                   <Feather name="trash-2" size={20} color="white" />
