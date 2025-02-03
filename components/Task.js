@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, TouchableOpacity, Keyboard } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
 const { width } = Dimensions.get("window");
@@ -39,6 +39,10 @@ const Task = () => {
     Keyboard.dismiss();
   };
 
+  const removeTask = (id) => {
+    setData((prevData) => prevData.filter((task) => task.id !== id));
+  };
+
 
   return (
     <SafeAreaView >
@@ -67,6 +71,12 @@ const Task = () => {
                 value={isChecked[item.id] ?? item.completed}
                 onPress={() => toggleCheckbox(item.id)}
               />
+              
+              <View style={styles.actionsContainer}>
+                <TouchableOpacity onPress={() => removeTask(item.id)} style={styles.deleteButton}>
+                  <Feather name="trash-2" size={20} color="white" />
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -138,6 +148,16 @@ const styles = StyleSheet.create({
       flex: 1,
       fontSize: width * 0.045,
       marginRight: "4%",
+    },
+    actionsContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    deleteButton: {
+      backgroundColor: "#D9534F",
+      padding: 6,
+      borderRadius: 8,
+      marginLeft: 10,
     },
   });
   
