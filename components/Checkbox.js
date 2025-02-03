@@ -4,7 +4,6 @@ import { Pressable, View, StyleSheet, Dimensions } from "react-native";
 const Checkbox = ({ value, onPress }) => {
   return (
     <Pressable onPress={onPress} style={styles.checkboxContainer}>
-        {console.log(value)}
       <View style={[styles.checkbox, value && styles.checked]} />
     </Pressable>
   );

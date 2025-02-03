@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, TouchableOpacity, Keyboard } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import Checkbox from "./Checkbox";
 
 const { width } = Dimensions.get("window");
@@ -9,6 +10,7 @@ const Task = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [isChecked, setChecked] = useState({});
+  const [newTask, setNewTask] = useState("");
 
   useEffect(() => {
     fetch(linkTodo)
@@ -25,8 +27,33 @@ const Task = () => {
     }));
   };
 
+  const addTask = () => {
+    if (newTask.trim() === "") return;
+    const newTaskObj = {
+      id: data.length + 1,
+      title: newTask,
+      completed: false,
+    };
+    setData((prevData) => [...prevData, newTaskObj])
+    setNewTask(""); 
+    Keyboard.dismiss();
+  };
+
+
   return (
     <SafeAreaView >
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Write a task"
+          value={newTask}
+          onChangeText={setNewTask}
+        />
+        <TouchableOpacity style={styles.sendButton} onPress={addTask}>
+          <Ionicons name="send" size={20} color="blue" />
+        </TouchableOpacity>
+      </View>
+
       {isLoading ? (
         <Text style={styles.loadingText}>Loading...</Text>
       ) : (
@@ -91,6 +118,26 @@ const styles = StyleSheet.create({
     completedText: {
       textDecorationLine: "line-through",
       color: "#aaa",
+    },
+    inputContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "4%",
+      backgroundColor: "#FFF",
+      borderRadius: width * 0.02,
+      paddingHorizontal: "4%",
+      paddingVertical: "2%",
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    input: {
+      flex: 1,
+      fontSize: width * 0.045,
+      marginRight: "4%",
     },
   });
   
