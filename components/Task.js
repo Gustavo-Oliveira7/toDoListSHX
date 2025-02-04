@@ -104,6 +104,7 @@ const Task = () => {
         <Text style={styles.loadingText}>Loading...</Text>
       ) : (
         <FlatList
+          
           data={data}
           keyExtractor={({ id }) => id.toString()}
           renderItem={({ item }) => (
@@ -172,6 +173,8 @@ const styles = StyleSheet.create({
       color: "#aaa",
     },
     inputContainer: {
+      flex: '1',
+      minWidth: "300",
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
