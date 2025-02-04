@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, TouchableOpacity, Keyboard } from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, TouchableOpacity, Keyboard, Alert } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import Checkbox from "./Checkbox";
@@ -74,6 +74,17 @@ const Task = () => {
     saveTasks(updatedTasks);
   };
 
+  const confirmDeleteTask = (id) => {
+    Alert.alert(
+      "Delete task",
+      "Are you sure you want to delete the task?",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Delete", onPress: () => removeTask(id), style: "destructive" }
+      ]
+    );
+  };
+
 
   return (
     <SafeAreaView >
@@ -104,7 +115,7 @@ const Task = () => {
               />
 
               <View style={styles.actionsContainer}>
-                <TouchableOpacity onPress={() => removeTask(item.id)} style={styles.deleteButton}>
+                <TouchableOpacity onPress={() => confirmDeleteTask(item.id)} style={styles.deleteButton}>
                   <Feather name="trash-2" size={20} color="white" />
                 </TouchableOpacity>
               </View>
