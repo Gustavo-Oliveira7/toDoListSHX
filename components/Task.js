@@ -97,7 +97,7 @@ const Task = () => {
           keyExtractor={({ id }) => id.toString()}
           renderItem={({ item }) => (
             <View style={styles.taskContainer}>
-              <Text style={styles.taskText}>{item.title}</Text>
+              <Text style={[styles.taskText, item.completed ? styles.completedText : null]}>{item.title}</Text>
               <Checkbox
                 value={isChecked[item.id] ?? item.completed}
                 onPress={() => toggleCheckbox(item.id)}
