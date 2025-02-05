@@ -1,8 +1,9 @@
 import React from "react";
 import { TouchableOpacity, Alert, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { DeleteButtonProps } from "../types/DeleteButtonProps"; // Importando os tipos
 
-const DeleteButton = ({ onDelete }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ onDelete }) => {
   const confirmDelete = () => {
     Alert.alert(
       "Delete task",

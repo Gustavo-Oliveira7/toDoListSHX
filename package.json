@@ -11,9 +11,9 @@
   },
   "type": "module",
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^2.1.0",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "axios": "^1.7.9",
-    "expo": "~52.0.28",
+    "expo": "~52.0.30",
     "expo-checkbox": "~4.0.1",
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
@@ -21,8 +21,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "typescript": "^5.3.3",
-    "@types/react": "~18.3.12"
+    "@types/react": "~18.3.12",
+    "typescript": "^5.7.3"
   },
   "private": true
 }
