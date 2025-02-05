@@ -1,7 +1,8 @@
 import React from "react";
-import { Pressable, View, StyleSheet, Dimensions } from "react-native";
+import { Pressable, View, StyleSheet } from "react-native";
+import { CheckboxProps } from "../types/CheckboxProps"; // Importando os tipos
 
-const Checkbox = ({ value, onPress }) => {
+const Checkbox: React.FC<CheckboxProps> = ({ value, onPress }) => {
   return (
     <Pressable onPress={onPress} style={styles.checkboxContainer}>
       <View style={[styles.checkbox, value && styles.checked]} />
