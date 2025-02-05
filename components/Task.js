@@ -4,6 +4,7 @@ import { Ionicons, Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import Checkbox from "./Checkbox";
 import DeleteButton from "./DeleteButton";
+import TaskInput from "./TaskInput";
 
 const { width } = Dimensions.get("window");
 const linkTodo = "https://jsonplaceholder.typicode.com/todos";
@@ -46,18 +47,16 @@ const Task = () => {
     }
   };
 
-  const addTask = () => {
-    if (newTask.trim() === "") return;
-    const newTaskObj = {
-      id: Date.now(), 
-      title: newTask,
+  const addTask = async (taskTitle) => {
+    const newTask = {
+      id: Date.now().toString(),
+      title: taskTitle,
       completed: false,
     };
-    const updatedTasks = [...data, newTaskObj];
-    setData(updatedTasks);
-    saveTasks(updatedTasks);
-    setNewTask(""); 
-    Keyboard.dismiss(); 
+  
+    const updatedTasks = [...data, newTask];
+    setData(updatedTasks); 
+    await AsyncStorage.setItem("tasks", JSON.stringify(updatedTasks));
   };
 
   const removeTask = (id) => {
@@ -77,18 +76,7 @@ const Task = () => {
 
   return (
     <SafeAreaView >
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Write a task"
-          value={newTask}
-          onChangeText={setNewTask}
-        />
-        <TouchableOpacity style={styles.sendButton} onPress={addTask}>
-          <Ionicons name="send" size={20} color="blue" />
-        </TouchableOpacity>
-      </View>
-
+      <TaskInput onAddTask={addTask}/>
       {isLoading ? (
         <Text style={styles.loadingText}>Loading...</Text>
       ) : (
@@ -156,28 +144,6 @@ const styles = StyleSheet.create({
     completedText: {
       textDecorationLine: "line-through",
       color: "#aaa",
-    },
-    inputContainer: {
-      flex: '1',
-      minWidth: "300",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: "4%",
-      backgroundColor: "#FFF",
-      borderRadius: width * 0.02,
-      paddingHorizontal: "4%",
-      paddingVertical: "2%",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 3,
-    },
-    input: {
-      flex: 1,
-      fontSize: width * 0.045,
-      marginRight: "4%",
     },
     actionsContainer: {
       flexDirection: "row",
