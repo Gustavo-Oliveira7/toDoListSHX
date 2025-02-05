@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, T
 import { Ionicons, Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
 import Checkbox from "./Checkbox";
+import DeleteButton from "./DeleteButton";
 
 const { width } = Dimensions.get("window");
 const linkTodo = "https://jsonplaceholder.typicode.com/todos";
@@ -18,7 +19,7 @@ const Task = () => {
     const fetchData = async () => {
       try {
         const storedTasks = await AsyncStorage.getItem("tasks");
-        if (storedTasks) {
+        if (storedTasks && JSON.parse(storedTasks).length > 0) {
           setData(JSON.parse(storedTasks));
         } else {
           const response = await fetch(linkTodo);
@@ -74,18 +75,6 @@ const Task = () => {
     saveTasks(updatedTasks);
   };
 
-  const confirmDeleteTask = (id) => {
-    Alert.alert(
-      "Delete task",
-      "Are you sure you want to delete the task?",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Delete", onPress: () => removeTask(id), style: "destructive" }
-      ]
-    );
-  };
-
-
   return (
     <SafeAreaView >
       <View style={styles.inputContainer}>
@@ -115,11 +104,7 @@ const Task = () => {
                 onPress={() => toggleCheckbox(item.id)}
               />
 
-              <View style={styles.actionsContainer}>
-                <TouchableOpacity onPress={() => confirmDeleteTask(item.id)} style={styles.deleteButton}>
-                  <Feather name="trash-2" size={20} color="white" />
-                </TouchableOpacity>
-              </View>
+              <DeleteButton onDelete={() => removeTask(item.id)}/>
             </View>
           )}
         />
@@ -197,13 +182,7 @@ const styles = StyleSheet.create({
     actionsContainer: {
       flexDirection: "row",
       alignItems: "center",
-    },
-    deleteButton: {
-      backgroundColor: "#D9534F",
-      padding: 6,
-      borderRadius: 8,
-      marginLeft: 10,
-    },
+    }
   });
   
 export default Task;
