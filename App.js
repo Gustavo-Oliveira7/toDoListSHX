@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import Task from './components/Task'
+import Task from './screens/Task'
 
 const { width } = Dimensions.get("window");
 

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView, Dimensions,TextInput, TouchableOpacity, Keyboard, Alert } from "react-native";
-import { Ionicons, Feather } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage"; 
-import Checkbox from "./Checkbox";
-import DeleteButton from "./DeleteButton";
-import TaskInput from "./TaskInput";
+import Checkbox from "../components/Checkbox";
+import DeleteButton from "../components/DeleteButton";
+import TaskInput from "../components/TaskInput";
 
 const { width } = Dimensions.get("window");
 const linkTodo = "https://jsonplaceholder.typicode.com/todos";
