@@ -57,12 +57,16 @@ yarn start
 ```
 /src
   ├── components
-  │   ├── TaskInput.js  # Componente do input + botão de envio
-  │   ├── DeleteButton.js  # Botão de deletar tarefa
-  │   ├── Checkbox.js  # Checkbox para marcar tarefas como concluídas
+  │   ├── TaskInput.tsx  # Componente do input + botão de envio
+  │   ├── DeleteButton.tsx  # Botão de deletar tarefa
+  │   ├── Checkbox.tsx  # Checkbox para marcar tarefas como concluídas
   ├── screens
-  │   ├── Task.js  # Tela principal do app
-  ├── App.js  # Arquivo principal do projeto
+  │   ├── Task.tsx  # Tela principal do app
+  ├── App.tsx  # Arquivo principal do projeto
+  ├── types
+  │   ├── CheckboxProps.tsx
+  │   ├── DeleteButtonProps.tsx
+  │   ├── TaskInputProps.tsx
 
 ```
 ---
@@ -73,6 +77,7 @@ yarn start
 2. **Marque uma tarefa como concluída** tocando no checkbox.  
 3. **Exclua uma tarefa** clicando no ícone de lixeira e confirmando a exclusão.  
 4. **As tarefas são salvas automaticamente** e permanecem mesmo após fechar o app.  
+
 
 
 
