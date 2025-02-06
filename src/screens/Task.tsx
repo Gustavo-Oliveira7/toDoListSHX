@@ -44,6 +44,12 @@ const Task = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (data.length > 0 && data.every(task => task.completed)) {
+      Alert.alert("Congratulations!", "You have completed all tasks! 🎉");
+    }
+  }, [data]);
+
   const saveTasks = async (tasks) => {
     try {
       await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
