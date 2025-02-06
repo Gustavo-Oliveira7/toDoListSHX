@@ -1,37 +1,47 @@
-import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Keyboard } from "react-native";
+import React, { useState, useCallback } from "react";
+import { 
+  View, 
+  TextInput, 
+  TouchableOpacity, 
+  Text, 
+  StyleSheet, 
+  Keyboard 
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { TaskInputProps } from "../types/TaskInputProps"; // Importando os tipos
 
-const TaskInput = ({ onAddTask }) => {
+const TaskInput: React.FC<TaskInputProps> = ({ onAddTask }) => {
   const [task, setTask] = useState("");
 
-  const handleAddTask = () => {
+  const handleAddTask = useCallback(() => {
     if (task.trim().length > 0) {
       onAddTask(task);
-      setTask(""); 
-      Keyboard.dismiss(); 
+      setTask("");
+      Keyboard.dismiss();
     }
-  };
+  }, [task, onAddTask]);
 
   const isDisabled = task.trim().length === 0;
 
   return (
     <View style={styles.inputContainer}>
-    <TextInput
+      <TextInput
         style={styles.input}
         placeholder="Write a task"
         value={task}
         onChangeText={setTask}
-    />
-    <TouchableOpacity 
-    style={[styles.sendButton, isDisabled && styles.disabledButton]}
-    onPress={handleAddTask}
-    disabled={isDisabled}>
+      />
+      <TouchableOpacity 
+        style={[styles.sendButton, isDisabled && styles.disabledButton]}
+        onPress={handleAddTask}
+        disabled={isDisabled}
+      >
         <Ionicons name="send" size={20} color="white" />
-    </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   inputContainer: {
@@ -41,8 +51,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
-    flex: '1',
-    minWidth: "300",
+    minWidth: 300,
   },
   input: {
     flex: 1,
