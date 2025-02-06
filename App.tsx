@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import Task from './src/screens/Task'
+import Task from './src/screens/Task';
 
 const { width } = Dimensions.get("window");
 
@@ -10,15 +10,12 @@ export default function App() {
         <Text style={styles.title}>
           Today's activities
         </Text>
-        <Text>
-          <Task/>
-        </Text>
+        <Task />
       </View>
-
-
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -29,8 +26,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: width * 0.07, // Maior tamanho para o título
+    fontSize: width * 0.07, 
     fontWeight: "bold",
-    color: "#1A73E8", // Azul vibrante
+    color: "#1A73E8", 
     marginBottom: "3%",}
 });
